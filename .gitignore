@@ -3,3 +3,4 @@ node_modules
 .prettierrc
 NOTES.md
 .env
+.DS_Store
