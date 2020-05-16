@@ -57,16 +57,16 @@ MongoClient.connect(
         //     .catch((err) => console.log(err));
 
         // ======= DELETE ========
-        db.collection('users')
-            .deleteMany({
-                age: 24,
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // db.collection('users')
+        //     .deleteMany({
+        //         age: 24,
+        //     })
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
 
         // ======= INSERTION ========
         // db.collection('users').insertOne(
