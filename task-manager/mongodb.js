@@ -5,8 +5,6 @@ const connectionURL = 'mongodb://127.0.0.1:27017';
 const dbName = 'task-manager';
 
 const id = new ObjectID();
-console.log(id);
-console.log(id.getTimestamp());
 
 MongoClient.connect(
     connectionURL,
@@ -17,6 +15,26 @@ MongoClient.connect(
         }
 
         const db = client.db(dbName);
+
+        // db.collection('users').findOne(
+        //     { _id: new ObjectID('5ec0386d86cef7168d640fc9') },
+        //     (err, res) => {
+        //         if (err) {
+        //             return console.log("Couldn't find user");
+        //         }
+        //         console.log(res);
+        //     }
+        // );
+
+        db.collection('users')
+            .find({ age: 20 })
+            .toArray((err, res) => {
+                if (err) {
+                    return console.log("Couldn't find users");
+                }
+                console.log(res);
+            });
+
         // db.collection('users').insertOne(
         //     {
         //         _id: id,
@@ -29,22 +47,6 @@ MongoClient.connect(
         //             return console.log('Unable to insert user');
         //         }
 
-        //         console.log(res.ops);
-        //     }
-        // );
-
-        // db.collection('users').insertMany(
-        //     [
-        //         { name: 'Jen', age: 28 },
-        //         {
-        //             name: 'Rick',
-        //             age: 29,
-        //         },
-        //     ],
-        //     (err, res) => {
-        //         if (err) {
-        //             return console.log('Unable to insert documents');
-        //         }
         //         console.log(res.ops);
         //     }
         // );
