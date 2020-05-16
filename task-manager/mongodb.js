@@ -16,6 +16,7 @@ MongoClient.connect(
 
         const db = client.db(dbName);
 
+        // ======= QUERY =======
         // db.collection('users').findOne(
         //     { _id: new ObjectID('5ec0386d86cef7168d640fc9') },
         //     (err, res) => {
@@ -26,15 +27,48 @@ MongoClient.connect(
         //     }
         // );
 
+        // db.collection('users')
+        //     .find({ age: 20 })
+        //     .toArray((err, res) => {
+        //         if (err) {
+        //             return console.log("Couldn't find users");
+        //         }
+        //         console.log(res);
+        //     });
+
+        // ======= UPDATE =======
+        // db.collection('users')
+        //     .updateOne(
+        //         {
+        //             _id: new ObjectID('5ec0386d86cef7168d640fc9'),
+        //         },
+        //         {
+        //             $set: {
+        //                 name: 'Abigal',
+        //             },
+        //             $inc: {
+        //                 age: 1,
+        //             },
+        //         }
+        //     )
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((err) => console.log(err));
+
+        // ======= DELETE ========
         db.collection('users')
-            .find({ age: 20 })
-            .toArray((err, res) => {
-                if (err) {
-                    return console.log("Couldn't find users");
-                }
+            .deleteMany({
+                age: 24,
+            })
+            .then((res) => {
                 console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
             });
 
+        // ======= INSERTION ========
         // db.collection('users').insertOne(
         //     {
         //         _id: id,
