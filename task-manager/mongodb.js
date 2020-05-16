@@ -1,7 +1,12 @@
-const MongoClient = require('mongodb').MongoClient;
+const mongodb = require('mongodb');
 
+const { MongoClient, ObjectID } = mongodb;
 const connectionURL = 'mongodb://127.0.0.1:27017';
 const dbName = 'task-manager';
+
+const id = new ObjectID();
+console.log(id);
+console.log(id.getTimestamp());
 
 MongoClient.connect(
     connectionURL,
@@ -14,8 +19,10 @@ MongoClient.connect(
         const db = client.db(dbName);
         // db.collection('users').insertOne(
         //     {
-        //         name: 'Alex',
-        //         age: 20,
+        //         _id: id,
+        //         name: 'Abby',
+        //         age: 23,
+        //         created: id.getTimestamp(),
         //     },
         //     (err, res) => {
         //         if (err) {
@@ -42,21 +49,21 @@ MongoClient.connect(
         //     }
         // );
 
-        db.collection('tasks').insertMany(
-            [
-                {
-                    description: 'Get some milk',
-                    completed: true,
-                },
-                {
-                    description: 'Order pizza',
-                    completed: false,
-                },
-            ],
-            (err, res) => {
-                if (err) return console.log(err);
-                console.log(res.ops);
-            }
-        );
+        // db.collection('tasks').insertMany(
+        //     [
+        //         {
+        //             description: 'Get some milk',
+        //             completed: true,
+        //         },
+        //         {
+        //             description: 'Order pizza',
+        //             completed: false,
+        //         },
+        //     ],
+        //     (err, res) => {
+        //         if (err) return console.log(err);
+        //         console.log(res.ops);
+        //     }
+        // );
     }
 );
