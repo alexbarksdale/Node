@@ -1,101 +1,15 @@
 const express = require('express');
 require('./db/mongoose');
 
-const User = require('./models/user.model');
-const Task = require('./models/task.model');
+const userRouter = require('./routers/user.router');
+const taskRouter = require('./routers/task.router');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Parse incoming JSON to an object
 app.use(express.json());
-app.post('/users', async (req, res) => {
-    const user = new User(req.body);
-
-    try {
-        await user.save();
-        res.status(201).send(user);
-    } catch (err) {
-        console.log(err);
-        res.status(400).send('Failed to save user to the DB');
-    }
-});
-
-app.get('/users', async (_, res) => {
-    try {
-        // Fetches all users in the DB
-        const users = await User.find({});
-        res.send(users);
-    } catch (err) {
-        res.status(500).send('Failed to fetch users');
-    }
-});
-
-app.get('/users/:id', async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-
-        if (!user) return res.status(404).send();
-        res.send(user);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send();
-    }
-});
-
-app.patch('/users/:id', async (req, res) => {
-    const updates = Object.keys(req.body);
-    const allowedUpdates = ['name', 'email', 'password', 'age'];
-    const isValid = updates.every((update) => allowedUpdates.includes(update));
-
-    if (!isValid) return res.status(400).send({ error: 'Invalid updates' });
-
-    try {
-        const user = await User.findOneAndUpdate(req.params.id, req.body, {
-            // returns a new user
-            new: true,
-            // run validation from model
-            runValidators: true,
-        });
-
-        if (!user) return res.status(404).send();
-        res.send(user);
-    } catch (err) {
-        res.status(400).send(err);
-    }
-});
-
-app.get('/tasks', async (_, res) => {
-    try {
-        const tasks = await Task.find({});
-        res.send(tasks);
-    } catch (err) {
-        res.status(500).send('Failed to find task');
-    }
-});
-
-app.get('/tasks/:id', async (req, res) => {
-    try {
-        const task = await Task.findById(req.params.id);
-
-        if (!task) return res.status(404).send();
-        res.send(task);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send();
-    }
-});
-
-app.post('/tasks', async (req, res) => {
-    const task = new Task(req.body);
-
-    try {
-        await task.save();
-
-        res.status(201).send(task);
-    } catch (err) {
-        res.status(400).send('Failed to create a task', err);
-    }
-});
+app.use(userRouter);
+app.use(taskRouter);
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
