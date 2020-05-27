@@ -19,12 +19,15 @@ const test = async () => {
         {
             _id: '123',
         },
-        'test'
+        'test',
+        {
+            expiresIn: '8m',
+        }
     );
 
-    jwt.verify(token, 'test');
+    const data = jwt.verify(token, 'test');
 
-    console.log(token);
+    console.log(data);
 };
 
 test();
